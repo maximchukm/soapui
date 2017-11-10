@@ -35,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -121,6 +122,9 @@ public class OAuth2TokenExtractor {
                 .setPassword(parameters.resourceOwnerPassword)
                 .setScope(parameters.scope)
                 .buildBodyMessage();
+
+        accessTokenRequest.addHeader("Authorization",
+                "Basic " + Base64.getEncoder().encodeToString((parameters.clientId + ":" + parameters.clientSecret).getBytes()));
 
         return accessTokenRequest;
     }
